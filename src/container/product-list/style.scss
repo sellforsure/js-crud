@@ -1,0 +1,64 @@
+@use '../../lib/service.scss' as s;
+
+main {
+  display: flex;
+  padding: s.space(4);
+}
+
+.title {
+  font-size: 20px;
+  font-weight: 700;
+  color: s.color('primary');
+
+  margin-bottom: s.space(2);
+}
+
+.product__list {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: s.space(4);
+}
+
+.product__card {
+  display: grid;
+  flex-direction: column;
+  gap: s.space(4);
+
+  padding: s.space(4);
+  border: 1px solid s.color('light');
+  border-radius: 7px;
+  box-shadow: 1px 1px 4px 1px rgb(213, 212, 212);
+  width: 300px;
+}
+
+.product__card-name {
+  font-size: 18px;
+  font-weight: 500;
+  
+}
+
+.product__card-description {
+  font-size: 14px;
+}
+
+.product__card-id {
+  font-size: 12px;
+  color: grey;
+}
+
+.product__card-footer {
+  display: flex;
+
+  justify-content: space-between;
+  align-items: center;
+}
+
+.product__card-price {
+  font-size: 16px;
+  font-weight: 700;
+}
+
+a {
+    text-decoration: none;
+    color: s.color('primary');
+}
