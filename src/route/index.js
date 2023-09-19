@@ -119,18 +119,22 @@ class Product {
   static #list = []
 
   constructor(name, price, description) {
-    this.id = Math.floor(Math.random() * 10000)
-    this.createDate = new Date().toISOString()
     this.name = name
     this.price = price
     this.description = description
+    this.id = Math.floor(Math.random() * 10000)
+    this.createDate = () => {
+      this.date = new Date().toISOString()
+    }
   }
+
+  static getList = () => this.#list
+
+  checkId = (id) => this.id === id
 
   static add = (product) => {
     this.#list.push(product)
   }
-
-  static getList = () => this.#list
 
   static getById = (id) =>
     this.#list.find((product) => product.id === id)
@@ -149,17 +153,26 @@ class Product {
   }
 
   static updateById = (id, data) => {
-    const productIndex = this.#list.findIndex(
-      (product) => product.id === id,
-    )
-    if (productIndex !== -1) {
-      if (data.name)
-        this.#list[productIndex].name = data.name
-      if (data.price)
-        this.#list[productIndex].price = data.price
-      if (data.description)
-        this.#list[productIndex].description =
-          data.description
+    const product = this.getById(id)
+
+    if (product) {
+      const { name, price, description } = data
+
+      if (name) {
+        product.name = name
+      }
+
+      if (price) {
+        product.price = price
+      }
+
+      if (description) {
+        product.description = description
+      }
+
+      return true
+    } else {
+      return false
     }
   }
 }
@@ -168,7 +181,7 @@ class Product {
 
 router.get('/product-create', function (req, res) {
   // res.render генерує нам HTML сторінку
-
+  const list = Product.getList()
   // ↙️ cюди вводимо назву файлу з сontainer
   res.render('product-create', {
     // вказуємо назву папки контейнера, в якій знаходяться наші стилі
@@ -183,6 +196,13 @@ router.post('/product-create', function (req, res) {
   const product = new Product(name, price, description)
 
   Product.add(product)
+  if (!name || !price || !description) {
+    console.log('Не всі поля заповнені')
+    return res.render('alert', {
+      style: 'alert',
+      info: 'Не всі поля заповнені',
+    })
+  }
 
   console.log(Product.getList())
 
@@ -203,7 +223,7 @@ router.get('/product-list', function (req, res) {
     style: 'product-list',
     data: {
       products: {
-        list: Product.getList(),
+        list,
         isEmpty: list.length === 0,
       },
     },
@@ -223,22 +243,25 @@ router.get('/product-edit', function (req, res) {
     res.render('product-edit', {
       style: 'product-edit',
       data: {
-        product,
+        name: product.name,
+        price: product.price,
+        id: product.id,
+        description: product.description,
       },
     })
   }
 })
 
 router.post('/product-edit', function (req, res) {
-  const { name, price, description } = req.body
+  const { id, name, price, description } = req.body
 
-  const updateByData = { name, price, description }
+  const product = Product.updateById(Number(id), {
+    name,
+    price,
+    description,
+  })
 
-  const result = Product.updateById(Number(id))
-
-  console.log(Product.getList())
-
-  if (result) {
+  if (product) {
     res.render('alert', {
       style: 'alert',
       info: 'Дані товару оновлено',
@@ -246,7 +269,7 @@ router.post('/product-edit', function (req, res) {
   } else {
     res.render('alert', {
       style: 'alert',
-      info: 'Товар за таки ID не знайдено',
+      info: 'Товар за таким ID не знайдено',
     })
   }
 })

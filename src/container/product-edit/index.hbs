@@ -6,13 +6,12 @@
 <main>
   <section>
     <h1 class='title'>Редагування товару</h1>
-    <div method='POST' action='/product-edit'>
-      {{#with data.product}}
+    <form method='POST' action='/product-edit'>
+      {{#with data}}
         <div class='product__edit'>
           <h2 class='product__edit-title'>Інформація про
               товар</h2>
-          <div class="product__edit-body">
-            
+          <div class="product__edit-body">         
             <div class="product-input">
               <label for='name'>Назва товару</label>
               <input
@@ -49,11 +48,10 @@
           
         <p>Відображається у картці товару</p>
         <div class="product__edit-button">
-        <a
-          href='product-edit?id={{id}}'
+        <button
           type='submit'
           class='button button-primary'
-        >Зберегти оновлення</a>
+        >Зберегти оновлення</button>
         <a
           href='/product-delete?id={{id}}'
           type='reset'
@@ -62,9 +60,7 @@
         </div>
       {{/with}}
         </div>
-
-
-    </div>
+    </form>
   </section>
 
 </main>

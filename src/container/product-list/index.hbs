@@ -6,7 +6,6 @@
 <main>
   <section>
     <h1 class='title'>Список товарів</h1>
-    <div method='POST' action='/product-list'>
       {{#with data.products}}
         {{#if isEmpty}}
           <h2>Список товару пустий</h2>
@@ -34,7 +33,6 @@
                     >Редагувати</a>
                   </div>
                 </div>
-
               </li>
             {{/each}}
           </ul>
