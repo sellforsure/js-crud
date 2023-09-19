@@ -180,14 +180,10 @@ class Product {
 // ================================================================
 
 router.get('/product-create', function (req, res) {
-  // res.render генерує нам HTML сторінку
   const list = Product.getList()
-  // ↙️ cюди вводимо назву файлу з сontainer
   res.render('product-create', {
-    // вказуємо назву папки контейнера, в якій знаходяться наші стилі
     style: 'product-create',
   })
-  // ↑↑ сюди вводимо JSON дані
 })
 
 router.post('/product-create', function (req, res) {
@@ -195,14 +191,16 @@ router.post('/product-create', function (req, res) {
 
   const product = new Product(name, price, description)
 
+  // Product.add(product)
+  // if (!name || !price || !description) {
+  //   console.log('Не всі поля заповнені')
+  //   return res.render('alert', {
+  //     style: 'alert',
+  //     info: 'Не всі поля заповнені',
+  //   })
+  // }
+
   Product.add(product)
-  if (!name || !price || !description) {
-    console.log('Не всі поля заповнені')
-    return res.render('alert', {
-      style: 'alert',
-      info: 'Не всі поля заповнені',
-    })
-  }
 
   console.log(Product.getList())
 
