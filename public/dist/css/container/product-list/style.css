@@ -1,0 +1,60 @@
+main {
+  display: flex;
+  padding: 16px;
+}
+
+.title {
+  font-size: 20px;
+  font-weight: 700;
+  color: rgb(57, 57, 255);
+  margin-bottom: 8px;
+}
+
+.product__list {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.product__card {
+  display: grid;
+  flex-direction: column;
+  gap: 16px;
+  padding: 16px;
+  border: 1px solid #ddd;
+  border-radius: 7px;
+  box-shadow: 1px 1px 4px 1px rgb(213, 212, 212);
+  width: 300px;
+}
+
+.product__card-name {
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.product__card-description {
+  font-size: 14px;
+}
+
+.product__card-id {
+  font-size: 12px;
+  color: grey;
+}
+
+.product__card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.product__card-price {
+  font-size: 16px;
+  font-weight: 700;
+}
+
+a {
+  text-decoration: none;
+  color: rgb(57, 57, 255);
+}
+
+/*# sourceMappingURL=style.css.map */

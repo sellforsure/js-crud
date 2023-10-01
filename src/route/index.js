@@ -115,23 +115,170 @@ router.get('/user-delete', function (req, res) {
 
 // ================================================================
 
-router.post('/user-update', function (req, res) {
-  const { email, password, id } = req.body
+class Product {
+  static #list = []
 
-  let result = false
-
-  const user = User.getById(Number(id))
-
-  if (user.verifyPassword(password)) {
-    User.update(user, { email })
-    result = true
+  constructor(name, price, description) {
+    this.name = name
+    this.price = price
+    this.description = description
+    this.id = Math.floor(Math.random() * 10000)
+    this.createDate = () => {
+      this.date = new Date().toISOString()
+    }
   }
 
-  res.render('success-info', {
-    style: 'success-info',
-    info: result
-      ? 'Емайл пошта оновлена'
-      : 'Сталася помилка',
+  static getList = () => this.#list
+
+  checkId = (id) => this.id === id
+
+  static add = (product) => {
+    this.#list.push(product)
+  }
+
+  static getById = (id) =>
+    this.#list.find((product) => product.id === id)
+
+  static deleteById = (id) => {
+    const index = this.#list.findIndex(
+      (product) => product.id === id,
+    )
+
+    if (index !== -1) {
+      this.#list.splice(index, 1)
+      return true
+    } else {
+      return false
+    }
+  }
+
+  static updateById = (id, data) => {
+    const product = this.getById(id)
+
+    if (product) {
+      const { name, price, description } = data
+
+      if (name) {
+        product.name = name
+      }
+
+      if (price) {
+        product.price = price
+      }
+
+      if (description) {
+        product.description = description
+      }
+
+      return true
+    } else {
+      return false
+    }
+  }
+}
+
+// ================================================================
+
+router.get('/product-create', function (req, res) {
+  const list = Product.getList()
+  res.render('product-create', {
+    style: 'product-create',
+  })
+})
+
+router.post('/product-create', function (req, res) {
+  const { name, price, description } = req.body
+
+  const product = new Product(name, price, description)
+
+  // Product.add(product)
+  // if (!name || !price || !description) {
+  //   console.log('Не всі поля заповнені')
+  //   return res.render('alert', {
+  //     style: 'alert',
+  //     info: 'Не всі поля заповнені',
+  //   })
+  // }
+
+  Product.add(product)
+
+  console.log(Product.getList())
+
+  res.render('alert', {
+    style: 'alert',
+    info: 'Успішне виконання дії',
+  })
+})
+
+router.get('/product-list', function (req, res) {
+  // res.render генерує нам HTML сторінку
+
+  const list = Product.getList()
+
+  // ↙️ cюди вводимо назву файлу з сontainer
+  res.render('product-list', {
+    // вказуємо назву папки контейнера, в якій знаходяться наші стилі
+    style: 'product-list',
+    data: {
+      products: {
+        list,
+        isEmpty: list.length === 0,
+      },
+    },
+  })
+  // ↑↑ сюди вводимо JSON дані
+})
+
+router.get('/product-edit', function (req, res) {
+  const { id } = req.query
+  const product = Product.getById(Number(id))
+  if (!product) {
+    res.render('alert', {
+      style: 'alert',
+      info: 'Товар з таким ID не знайдено',
+    })
+  } else {
+    res.render('product-edit', {
+      style: 'product-edit',
+      data: {
+        name: product.name,
+        price: product.price,
+        id: product.id,
+        description: product.description,
+      },
+    })
+  }
+})
+
+router.post('/product-edit', function (req, res) {
+  const { id, name, price, description } = req.body
+
+  const product = Product.updateById(Number(id), {
+    name,
+    price,
+    description,
+  })
+
+  if (product) {
+    res.render('alert', {
+      style: 'alert',
+      info: 'Дані товару оновлено',
+    })
+  } else {
+    res.render('alert', {
+      style: 'alert',
+      info: 'Товар за таким ID не знайдено',
+    })
+  }
+})
+
+router.get('/product-delete', function (req, res) {
+  const { id } = req.query
+  Product.deleteById(Number(id))
+
+  res.render('alert', {
+    style: 'alert',
+    info: 'Товар видалено',
   })
 })
 

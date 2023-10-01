@@ -1,0 +1,73 @@
+main {
+  display: flex;
+  padding: 16px;
+  align-items: center;
+  justify-content: center;
+}
+
+.title {
+  font-size: 20px;
+  font-weight: 700;
+  color: rgb(57, 57, 255);
+  margin-bottom: 8px;
+}
+
+.product-create {
+  display: flex;
+  flex-direction: column;
+  align-content: space-between;
+  padding: 16px;
+  border: 1px solid #ddd;
+  border-radius: 7px;
+  box-shadow: 1px 1px 4px 1px rgb(213, 212, 212);
+  width: 700px;
+  height: max-content;
+}
+
+.product-create__title {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.product-create__body {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr;
+  gap: 16px;
+  padding-bottom: 8px;
+}
+
+.product-create__description > input {
+  display: grid;
+  height: 100px;
+}
+
+.product-input {
+  display: grid;
+  flex-direction: column;
+  gap: 4px;
+}
+
+input {
+  border: 1px solid #ddd;
+  padding: 4px;
+}
+
+p {
+  font-size: 12px;
+  color: gray;
+  margin-bottom: 12px;
+}
+
+button {
+  display: inline-block;
+  padding: 8px;
+  background-color: rgb(57, 57, 255);
+  border-radius: 5px;
+  width: 100%;
+  text-align: center;
+  text-decoration: none;
+  color: white;
+}
+
+/*# sourceMappingURL=style.css.map */
