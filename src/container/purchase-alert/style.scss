@@ -1,0 +1,32 @@
+@use '../../lib/service.scss' as s;
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: s.space(4);
+}
+
+div {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  
+    padding: s.space(4);
+    border: 1px solid s.color('light');
+    border-radius: 7px;
+    box-shadow: 1px 1px 4px 1px rgb(213, 212, 212);
+    width: 700px;
+  }
+  
+  a { 
+    display: inline-block;
+    padding: s.space(2) s.space(10);   
+    background-color: s.color('primary');
+    border-radius: 5px;
+    text-align: center;
+    text-decoration: none;
+    
+    
+    color: white;
+  }
